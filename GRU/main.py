@@ -3,6 +3,7 @@ import string
 from logger import setup_logger
 
 from keras.preprocessing.text import Tokenizer
+from keras.utils import to_categorical
 
 log = setup_logger(__name__)
 
@@ -44,12 +45,11 @@ def preprocessing(df):
     dictionary = {}
     rev_dictionary = {}
     for word, idx in word2index.items():
-        if idx > 1406:
-            continue
         dictionary[word] = idx
         rev_dictionary[idx] = word
 
     input_sequences = tokenizer.texts_to_sequences(corpus["text"])
+    print(input_sequences)
 
     input_data = []
     target = []
@@ -66,12 +66,12 @@ def preprocessing(df):
 
     input_data = pad_sequences()
 
+    total_words = len(vocab)
     target = to_categorical(target, num_classes=total_words)
-        input_data, maxlen = MAX_LEN, padding = "post", truncating = "post")
+    input_data = pad_sequences(
+        maxlen=MAX_LEN, padding="post", truncating="post")
 
     log.info("Input data has a shape of " + str(input_data.shape))
-
-
     log.info("Target data has a shape of " + str(input_data.shape))
 
     return
@@ -79,13 +79,13 @@ def preprocessing(df):
 
 def main(input_file: str):
     log.info("Loading data...")
-    df=load_data(input_file)
+    df = load_data(input_file)
     log.info("Preprocessing...")
-    corpus=preprocessing(df)
+    corpus = preprocessing(df)
     log.info("Printing examples")
     print(corpus)
 
 
 if __name__ == "__main__":
-    filename="../tiny.csv"
+    filename = "../tiny.csv"
     main(filename)
