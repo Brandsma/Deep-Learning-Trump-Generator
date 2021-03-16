@@ -150,7 +150,7 @@ def predict(model, tokenizer, seed_text, num_of_words=10):
     return seed_text.title()
 
 
-def train_model(input_data, target, model, size_batch=32, nr_epochs=2):
+def train_model(input_data, target, model, size_batch=32, nr_epochs=50):
     model.fit(input_data, target, batch_size=size_batch,
               epochs=nr_epochs, verbose=1)
     return model
@@ -193,5 +193,5 @@ if __name__ == "__main__":
     if DEBUG:
         log.info("Debug mode is ON")
 
-    filename = "../half.csv"
+    filename = "../all.csv"
     main(filename)
