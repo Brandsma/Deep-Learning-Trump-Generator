@@ -150,7 +150,7 @@ def predict(model, tokenizer, seed_text, num_of_words=10):
     return seed_text.title()
 
 
-def train_model(input_data, target, model, size_batch=32, nr_epochs=50):
+def train_model(input_data, target, model, size_batch=32, nr_epochs=3):
     model.fit(input_data, target, batch_size=size_batch,
               epochs=nr_epochs, verbose=1)
     return model
@@ -165,7 +165,7 @@ def main(input_file: str, model_type: str = "GRU"):
     model = None
     if model_type == "LSTM":
         log.info("Creating LSTM model...")
-        model = create_LSTM_model(x, y)
+        model = create_LSTM_model(x, y, num_lstm_units=5)
     elif model_type == "GRU":
         log.info("Creating GRU model...")
         model = create_GRU_model(x, y)
